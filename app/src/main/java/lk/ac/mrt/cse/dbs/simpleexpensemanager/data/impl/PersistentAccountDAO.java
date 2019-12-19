@@ -62,7 +62,7 @@ public class PersistentAccountDAO implements AccountDAO, Serializable {
     @Override
     public Account getAccount(String accountNo) throws InvalidAccountException {
 
-        String sql = "SELECT * FROM " + TableDetails.AccountsTable.TABLE_NAME +" WHERE " + TableDetails.AccountsTable.ACCOUNT_NO + " = " + accountNo + " ;";
+        String sql = "SELECT * FROM " + TableDetails.AccountsTable.TABLE_NAME +" WHERE " + TableDetails.AccountsTable.ACCOUNT_NO + " = '"+ accountNo + "';";
         Cursor cursor = database.rawQuery(sql,null);
         if(cursor.getCount() == 0){
             String message = "Account No is invalid";
@@ -107,7 +107,7 @@ public class PersistentAccountDAO implements AccountDAO, Serializable {
             stmt.bindString(1,accountNo);
             stmt.executeUpdateDelete();
 
-        } catch (Exception e) {
+        } catch (SQLiteException e) {
             e.printStackTrace();
         }
 
@@ -115,13 +115,24 @@ public class PersistentAccountDAO implements AccountDAO, Serializable {
 
     @Override
     public void updateBalance(String accountNo, ExpenseType expenseType, double amount) throws InvalidAccountException {
+        Account account = getAccount(accountNo);
+        switch(expenseType){
+            case EXPENSE:
+                account.setBalance(account.getBalance() - amount);
+                break;
+            case INCOME:;
+                account.setBalance(account.getBalance() + amount);
+                break;
+        }
 
-        String sql = "UPDATE " + TableDetails.AccountsTable.TABLE_NAME + " SET " + TableDetails.AccountsTable.BALANCE + " = ?" + " WHERE " + TableDetails.AccountsTable.ACCOUNT_NO + " ? ;";
+        String sql = "UPDATE " + TableDetails.AccountsTable.TABLE_NAME + " SET " + TableDetails.AccountsTable.BALANCE + " = ?" + " WHERE " + TableDetails.AccountsTable.ACCOUNT_NO + " =   ? ;";
         try{
-            SQLiteStatement stmt
+            SQLiteStatement stmt = database.compileStatement(sql);
+            stmt.bindDouble(1, account.getBalance() );
+            stmt.bindString(2, accountNo);
 
-        }catch{
-
+        }catch(SQLiteException e){
+            e.printStackTrace();
         }
 
     }

@@ -4,6 +4,7 @@ public final class TableDetails {
 
     public static class AccountsTable{
         public static final String TABLE_NAME = "accounts";
+        public static final String ACCOUNT_ID = "account_id";
         public static final String ACCOUNT_NO = "accountNo";
         public static final String BANK_NAME = "bankName";
         public static final String ACCOUNT_HOLDER_NAME = "accountHolderName";
@@ -12,6 +13,7 @@ public final class TableDetails {
     }
 
     public static class Transactions{
+        public static final String TRANSACTION_ID = "transaction_id";
         public static final String TABLE_NAME = "transactions";
         public static final String DATE = "date";
         public static final String ACCOUNT_NO = "accountNo";

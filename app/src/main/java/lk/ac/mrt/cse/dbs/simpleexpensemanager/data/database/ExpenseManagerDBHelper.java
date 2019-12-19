@@ -28,19 +28,21 @@ public class ExpenseManagerDBHelper extends SQLiteOpenHelper{
 
     public static final String CREATE_ACCOUNT_TABLE =
             "CREATE TABLE " + TableDetails.AccountsTable.TABLE_NAME + " ( " +
-                    TableDetails.AccountsTable.ACCOUNT_NO + " VARCHAR(20) PRIMARY KEY , " +
+                    TableDetails.AccountsTable.ACCOUNT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                    TableDetails.AccountsTable.ACCOUNT_NO + " TEXT , " +
                     TableDetails.AccountsTable.ACCOUNT_HOLDER_NAME + " VARCHAR(50), " +
                     TableDetails.AccountsTable.BANK_NAME + " VARCHAR(50) , "+
                     TableDetails.AccountsTable.BALANCE + " DOUBLE) ";
 
     public static final String CREATE_TRANSACTION_TABLE =
             "CREATE TABLE " + TableDetails.Transactions.TABLE_NAME + " ( " +
-                    "Transaction_id INT PRIMARY KEY AUTOINCREMENT, " +
+                    TableDetails.Transactions.TRANSACTION_ID +  " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableDetails.Transactions.ACCOUNT_NO + " VARCHAR(20), " +
                     TableDetails.Transactions.AMOUNT + " DOUBLE, " +
                     TableDetails.Transactions.DATE + " VARCHAR(20), " +
-                    TableDetails.Transactions.EXPENSE_TYPE + "VARCHAR(20), " +
-                    "FOREIGN KEY (" + TableDetails.Transactions.ACCOUNT_NO + ") REFERENCES " + TableDetails.AccountsTable.TABLE_NAME + " ( "+ TableDetails.AccountsTable.ACCOUNT_NO + " )";
+                    TableDetails.Transactions.EXPENSE_TYPE + " VARCHAR(20) ," +
+                    "FOREIGN KEY (" + TableDetails.Transactions.ACCOUNT_NO + ") REFERENCES " + TableDetails.AccountsTable.TABLE_NAME + " ( "+
+                    TableDetails.AccountsTable.ACCOUNT_NO + " ))";
 
 
 }
